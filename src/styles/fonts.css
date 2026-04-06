@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Korto font - using a similar alternative (Poppins) since Korto is a commercial font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+@font-face {
+  font-family: 'Korto:Book';
+  src: local('Poppins'), local('Poppins-Regular');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Korto:Bold';
+  src: local('Poppins'), local('Poppins-Bold');
+  font-weight: 700;
+}
