@@ -1,6 +1,6 @@
 import svgPaths from "./svg-rbg3hlwt1j";
-import imgImageBeanToGreen from "figma:asset/5b28d5f77d7fb3f8fc35de94d42b9f3e93d2436d.png";
-import imgImagePolarBears from "figma:asset/74334ba36969c307f876a2078f8ac6ab94fe26bc.png";
+import imgImageBeanToGreen from "../assets/5b28d5f77d7fb3f8fc35de94d42b9f3e93d2436d.png";
+import imgImagePolarBears from "../assets/74334ba36969c307f876a2078f8ac6ab94fe26bc.png";
 import { imgEllipse773, imgEllipse774, imgSOpportunity } from "./svg-7mw3g";
 
 function ImageBeanToGreen() {

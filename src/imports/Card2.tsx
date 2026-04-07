@@ -1,6 +1,6 @@
 import svgPaths from "./svg-0jego0jrb6";
-import imgImage from "figma:asset/5b28d5f77d7fb3f8fc35de94d42b9f3e93d2436d.png";
-import imgImagePolarBears from "figma:asset/74334ba36969c307f876a2078f8ac6ab94fe26bc.png";
+import imgImage from "../assets/5b28d5f77d7fb3f8fc35de94d42b9f3e93d2436d.png";
+import imgImagePolarBears from "../assets/74334ba36969c307f876a2078f8ac6ab94fe26bc.png";
 import { imgEllipse774 } from "./svg-avvst";
 
 function Heading() {

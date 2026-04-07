@@ -1,6 +1,6 @@
 import svgPaths from "./svg-28opai1k5l";
-import imgLogo1 from "figma:asset/5b28d5f77d7fb3f8fc35de94d42b9f3e93d2436d.png";
-import imgImage18 from "figma:asset/ae18478f6f8e76d1ed58e7f0e397527f51e8e1f3.png";
+import imgLogo1 from "../assets/5b28d5f77d7fb3f8fc35de94d42b9f3e93d2436d.png";
+import imgImage18 from "../assets/ae18478f6f8e76d1ed58e7f0e397527f51e8e1f3.png";
 
 function Left() {
   return (

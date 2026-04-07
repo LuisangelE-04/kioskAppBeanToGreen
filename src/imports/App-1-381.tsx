@@ -1,7 +1,7 @@
 import svgPaths from "./svg-g59icyggq6";
-import imgImageBeanToGreenLogo from "figma:asset/1e8b043e50536ca3a19d4e06c93364d999337b32.png";
-import imgLogo2 from "figma:asset/5b28d5f77d7fb3f8fc35de94d42b9f3e93d2436d.png";
-import imgImagePolarBears from "figma:asset/74334ba36969c307f876a2078f8ac6ab94fe26bc.png";
+import imgImageBeanToGreenLogo from "../assets/1e8b043e50536ca3a19d4e06c93364d999337b32.png";
+import imgLogo2 from "../assets/5b28d5f77d7fb3f8fc35de94d42b9f3e93d2436d.png";
+import imgImagePolarBears from "../assets/74334ba36969c307f876a2078f8ac6ab94fe26bc.png";
 import { imgSOpportunity, imgGroup27, imgVector } from "./svg-nadxz";
 
 function ImageBeanToGreenLogo() {

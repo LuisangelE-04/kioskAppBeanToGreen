@@ -1,5 +1,5 @@
 import svgPaths from "./svg-qd6x8mo1zp";
-import imgImage from "figma:asset/5b28d5f77d7fb3f8fc35de94d42b9f3e93d2436d.png";
+import imgImage from "../assets/5b28d5f77d7fb3f8fc35de94d42b9f3e93d2436d.png";
 
 function HomeIndicator() {
   return (

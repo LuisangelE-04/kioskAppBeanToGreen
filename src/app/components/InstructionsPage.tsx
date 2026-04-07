@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import { BeanToGreenLogo } from "./BeanToGreenLogo";
@@ -6,15 +5,6 @@ import { ProgressIndicator } from "./ProgressIndicator";
 
 export function InstructionsPage() {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Auto-advance after 5 seconds
-    const timer = setTimeout(() => {
-      navigate("/weighing");
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-start p-8 pt-12">
