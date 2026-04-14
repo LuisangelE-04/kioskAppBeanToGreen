@@ -15,15 +15,7 @@ export function WeighingPageLive() {
   const {
     connectionState,
     statusMessage,
-    scanError,
-    connectedName,
-    autoReconnectEnabled,
     weightGrams,
-    requiresPairing,
-    isAutoReconnectSupported,
-    pairAndConnect,
-    reconnectNow,
-    disconnect,
   } = useAcaiaScaleAutoConnect();
 
   const [isStable, setIsStable] = useState(false);
@@ -163,61 +155,23 @@ export function WeighingPageLive() {
           >
             {connectionState === "connected"
               ? "Place coffee grounds on the scale and hold steady for confirmation."
-              : "Starting your saved scale connection. First-time setup requires one quick pairing."}
+              : "Waiting for scale connection to complete..."}
           </motion.p>
 
           <div className="w-full max-w-[700px] bg-[#f7f8fc] rounded-[18px] p-4 border border-[#d9e2f5]">
             <p className="font-['Korto:Book',sans-serif] text-[16px] text-black text-center">
               {statusMessage}
             </p>
-            {connectedName ? (
-              <p className="font-['Korto:Book',sans-serif] text-[14px] text-[#2b3f68] text-center mt-2">
-                Connected device: {connectedName}
-              </p>
-            ) : null}
-            <p className="font-['Korto:Book',sans-serif] text-[14px] text-[#2b3f68] text-center mt-1">
-              Auto-reconnect: {autoReconnectEnabled ? "enabled" : "disabled"}
-            </p>
-            {scanError ? (
-              <p className="font-['Korto:Book',sans-serif] text-[14px] text-[#b3261e] text-center mt-2">
-                {scanError}
-              </p>
-            ) : null}
           </div>
 
-          {requiresPairing ? (
-            <div className="flex flex-col items-center gap-3">
-              <button
-                type="button"
-                onClick={() => void pairAndConnect()}
-                className="h-[55px] min-w-[280px] bg-[#CB7701] hover:bg-[#b56901] text-white rounded-[30px] font-['Korto:Bold',sans-serif] text-[18px] transition-colors"
-              >
-                Set Up Scale (First Time)
-              </button>
-              <button
-                type="button"
-                onClick={() => void reconnectNow()}
-                className="h-[48px] min-w-[220px] bg-white hover:bg-[#f4f6fb] text-[#1e3a5f] border border-[#c9d6ec] rounded-[24px] font-['Korto:Book',sans-serif] text-[16px] transition-colors"
-              >
-                Retry Auto-Reconnect
-              </button>
-            </div>
-          ) : null}
-
-          {connectionState === "connected" ? (
+          {connectionState !== "connected" ? (
             <button
               type="button"
-              onClick={() => void disconnect()}
-              className="h-[44px] px-5 bg-white hover:bg-[#f4f6fb] text-[#1e3a5f] border border-[#c9d6ec] rounded-[22px] font-['Korto:Book',sans-serif] text-[14px] transition-colors"
+              onClick={() => navigate("/scale-setup")}
+              className="h-[48px] min-w-[250px] bg-white hover:bg-[#f4f6fb] text-[#1e3a5f] border border-[#c9d6ec] rounded-[24px] font-['Korto:Book',sans-serif] text-[16px] transition-colors"
             >
-              Disconnect Scale
+              Open Scale Setup
             </button>
-          ) : null}
-
-          {!isAutoReconnectSupported ? (
-            <p className="font-['Korto:Book',sans-serif] text-[14px] text-[#2b3f68] text-center max-w-[700px]">
-              Your browser does not support navigator.bluetooth.getDevices(), so refresh auto-reconnect may be limited.
-            </p>
           ) : null}
         </div>
       </motion.div>

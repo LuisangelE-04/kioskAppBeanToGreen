@@ -2,9 +2,20 @@ import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import { BeanToGreenLogo } from "./BeanToGreenLogo";
 import { ProgressIndicator } from "./ProgressIndicator";
+import { useAcaiaScaleAutoConnect } from "../../hooks/useAcaiaScaleAutoConnect";
 
 export function InstructionsPage() {
   const navigate = useNavigate();
+  const { connectionState } = useAcaiaScaleAutoConnect();
+
+  const handleContinue = () => {
+    if (connectionState === "connected") {
+      navigate("/weighing");
+      return;
+    }
+
+    navigate("/scale-setup");
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-start p-8 pt-12">
@@ -45,7 +56,7 @@ export function InstructionsPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          onClick={() => navigate("/weighing")}
+          onClick={handleContinue}
           className="h-[55px] w-full max-w-[500px] bg-[#CB7701] hover:bg-[#b56901] text-white rounded-[30px] font-['Korto:Bold',sans-serif] text-[18px] transition-colors mt-4"
         >
           I'm Ready
