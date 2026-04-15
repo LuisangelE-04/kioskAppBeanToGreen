@@ -3,19 +3,24 @@ import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import { BeanToGreenLogo } from "./BeanToGreenLogo";
 import { QRScanner } from "./QRScanner";
+import { useDonationSession } from "../providers/DonationSessionProvider";
+import { clearDonationEventId } from "../../services/donationService";
 
 export function LoginPage() {
   const navigate = useNavigate();
   const [showScanner, setShowScanner] = useState(false);
+  const { setQrToken, clearQrToken } = useDonationSession();
 
   const handleScreenTap = () => {
+    clearQrToken();
+    clearDonationEventId();
     navigate("/instructions");
   };
 
   const handleQRScan = (qrData: string) => {
     console.log("User linked via QR code:", qrData);
-    // Here you would validate the QR code and link the user account
-    // For now, we'll just close the scanner and proceed
+    clearDonationEventId();
+    setQrToken(qrData);
     setShowScanner(false);
     navigate("/instructions");
   };
@@ -81,6 +86,8 @@ export function LoginPage() {
             <button
               onClick={(e) => {
                 e.stopPropagation();
+                clearQrToken();
+                clearDonationEventId();
                 navigate("/instructions");
               }}
               className="h-[60px] bg-white border-2 border-[#CB7701] text-[#CB7701] rounded-[30px] font-['Korto:Bold',sans-serif] text-[18px] hover:bg-[#fff8e6] transition-colors"

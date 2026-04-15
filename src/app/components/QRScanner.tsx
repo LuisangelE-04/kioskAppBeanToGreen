@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { motion } from "motion/react";
 
@@ -9,7 +9,6 @@ interface QRScannerProps {
 
 export function QRScanner({ onScan, onClose }: QRScannerProps) {
   const scannerRef = useRef<HTMLDivElement>(null);
-  const [scannerInitialized, setScannerInitialized] = useState(false);
   const scannerInstanceRef = useRef<Html5QrcodeScanner | null>(null);
 
   useEffect(() => {
@@ -34,7 +33,6 @@ export function QRScanner({ onScan, onClose }: QRScannerProps) {
       
       // Stop scanner after successful scan
       scanner.clear();
-      setScannerInitialized(false);
     };
 
     const handleError = (error: string) => {
@@ -45,7 +43,6 @@ export function QRScanner({ onScan, onClose }: QRScannerProps) {
     };
 
     scanner.render(handleSuccess, handleError);
-    setScannerInitialized(true);
 
     return () => {
       if (scannerInstanceRef.current) {
@@ -61,7 +58,6 @@ export function QRScanner({ onScan, onClose }: QRScannerProps) {
       scannerInstanceRef.current.clear().catch(() => {
         // Scanner already cleared
       });
-      setScannerInitialized(false);
     }
     onClose();
   };

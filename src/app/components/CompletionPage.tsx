@@ -1,29 +1,65 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { motion } from "motion/react";
 import { BeanToGreenLogo } from "./BeanToGreenLogo";
 import { ProgressIndicator } from "./ProgressIndicator";
+import { useDonationSession } from "../providers/DonationSessionProvider";
+import { submitDonation, clearDonationEventId } from "../../services/donationService";
 import svgPaths from "../../imports/svg-qd6x8mo1zp";
 import svgPathsNew from "../../imports/svg-rbg3hlwt1j";
 import imgImageBeanToGreen from "../../assets/5b28d5f77d7fb3f8fc35de94d42b9f3e93d2436d.png";
 import imgImagePolarBears from "../../assets/74334ba36969c307f876a2078f8ac6ab94fe26bc.png";
 
+const DEVICE_ID = "6cf1c5f0-770d-457c-afc8-12dad95782ca";
+const LOCATION_ID = "7c299964-e1b2-4384-a5a7-37784ab6f775";
+
 export function CompletionPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const weight = location.state?.weight || 450;
+  const { qrToken, clearQrToken } = useDonationSession();
+  const hasSubmittedRef = useRef(false);
 
   // Calculate bulbs lit (roughly 1 bulb per 150g)
   const bulbsLit = Math.max(1, Math.floor(weight / 150));
+
+  // Calculate impact metrics
+  const impactKwh = (weight / 1000) * 0.03;
+  const methaneGrams = weight * 0.2;
 
   const handleReturnHome = () => {
     navigate("/");
   };
 
   useEffect(() => {
+    let cancelled = false;
+
+    const sendDonation = async () => {
+      if (hasSubmittedRef.current) return;
+      hasSubmittedRef.current = true;
+
+      try {
+        await submitDonation(DEVICE_ID, LOCATION_ID, weight, qrToken || "");
+        if (!cancelled) {
+          clearQrToken();
+          clearDonationEventId();
+        }
+      } catch (error) {
+        console.error("Donation submission failed:", error);
+      }
+    };
+
+    void sendDonation();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [clearQrToken, qrToken, weight]);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       navigate("/");
-    }, 7000);
+    }, 15000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
@@ -114,8 +150,8 @@ export function CompletionPage() {
               </div>
               {/* Stats */}
               <div className="flex flex-col gap-[10px] items-center">
-                <p className="font-['Korto:Bold',sans-serif] text-[24px] text-[#cb7701] text-center">{(weight / 1000).toFixed(1)}</p>
-                <p className="font-['Korto:Book',sans-serif] text-[16.8px] text-black text-center">kg</p>
+                <p className="font-['Korto:Bold',sans-serif] text-[24px] text-[#cb7701] text-center">{weight.toFixed(1)}</p>
+                <p className="font-['Korto:Book',sans-serif] text-[16.8px] text-black text-center">g</p>
               </div>
               <p className="font-['Korto:Book',sans-serif] text-[12px] text-black text-center">Grounds<br />Donated</p>
             </div>
@@ -135,7 +171,7 @@ export function CompletionPage() {
               </div>
               {/* Stats */}
               <div className="flex flex-col gap-[10px] items-center">
-                <p className="font-['Korto:Bold',sans-serif] text-[24px] text-[#60b010] text-center">{((weight / 1000) * 0.12 * 1000).toFixed(0)}</p>
+                <p className="font-['Korto:Bold',sans-serif] text-[24px] text-[#60b010] text-center">{impactKwh.toFixed(2)}</p>
                 <p className="font-['Korto:Book',sans-serif] text-[16.8px] text-black text-center">kWh</p>
               </div>
               <p className="font-['Korto:Book',sans-serif] text-[12px] text-black text-center">Generated</p>
@@ -152,7 +188,7 @@ export function CompletionPage() {
               </div>
               {/* Stats */}
               <div className="flex flex-col gap-[10px] items-center">
-                <p className="font-['Korto:Bold',sans-serif] text-[24px] text-[#007aff] text-center">{((weight / 1000) * 0.5 * 1000).toFixed(0)}</p>
+                <p className="font-['Korto:Bold',sans-serif] text-[24px] text-[#007aff] text-center">{(methaneGrams / 1000).toFixed(2)}</p>
                 <p className="font-['Korto:Book',sans-serif] text-[16.8px] text-black text-center">kg</p>
               </div>
               <p className="font-['Korto:Book',sans-serif] text-[12px] text-black text-center">Methane<br />Prevented</p>
