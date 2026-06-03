@@ -16,9 +16,10 @@ const LOCATION_ID = "7c299964-e1b2-4384-a5a7-37784ab6f775";
 export function CompletionPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const weight = location.state?.weight || 450;
+  const weight = location.state?.weight;
   const { qrToken, clearQrToken } = useDonationSession();
   const hasSubmittedRef = useRef(false);
+  const hasValidWeight = typeof weight === "number" && Number.isFinite(weight) && weight > 0;
 
   // Calculate bulbs lit (roughly 1 bulb per 150g)
   const bulbsLit = Math.max(1, Math.floor(weight / 150));
@@ -32,6 +33,10 @@ export function CompletionPage() {
   };
 
   useEffect(() => {
+    if (!hasValidWeight) {
+      return;
+    }
+
     let cancelled = false;
 
     const sendDonation = async () => {
@@ -54,15 +59,23 @@ export function CompletionPage() {
     return () => {
       cancelled = true;
     };
-  }, [clearQrToken, qrToken, weight]);
+  }, [clearQrToken, hasValidWeight, qrToken, weight]);
 
   useEffect(() => {
+    if (!hasValidWeight) {
+      const timer = setTimeout(() => {
+        navigate("/");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+
     const timer = setTimeout(() => {
       navigate("/");
     }, 15000);
 
     return () => clearTimeout(timer);
-  }, [navigate]);
+  }, [hasValidWeight, navigate]);
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-start p-8 pt-12">
@@ -150,7 +163,9 @@ export function CompletionPage() {
               </div>
               {/* Stats */}
               <div className="flex flex-col gap-[10px] items-center">
-                <p className="font-['Korto:Bold',sans-serif] text-[24px] text-[#cb7701] text-center">{weight.toFixed(1)}</p>
+                <p className="font-['Korto:Bold',sans-serif] text-[24px] text-[#cb7701] text-center">
+                  {hasValidWeight ? weight.toFixed(1) : "--.-"}
+                </p>
                 <p className="font-['Korto:Book',sans-serif] text-[16.8px] text-black text-center">g</p>
               </div>
               <p className="font-['Korto:Book',sans-serif] text-[12px] text-black text-center">Grounds<br />Donated</p>
