@@ -5,9 +5,9 @@ import { BeanToGreenLogo } from "./BeanToGreenLogo";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { useAcaiaScaleAutoConnect } from "../../hooks/useAcaiaScaleAutoConnect";
 
-const STABILITY_DELTA_GRAMS = 1.5;
-const STABILITY_HOLD_MS = 1500;
-const MIN_VALID_WEIGHT_GRAMS = 20;
+const STABILITY_DELTA_GRAMS = 2;
+const STABILITY_HOLD_MS = 1000;
+const MIN_VALID_WEIGHT_GRAMS = 10;
 const COMPLETE_DELAY_MS = 2000;
 
 export function WeighingPageLive() {
